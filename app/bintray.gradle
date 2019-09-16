@@ -1,0 +1,108 @@
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('bintray.properties').newDataInputStream())
+
+ext {
+    bintrayRepo = properties.getProperty("bintray.bintrayRepo")
+    bintrayName = properties.getProperty("bintray.bintrayName")
+
+    publishedGroupId = properties.getProperty("bintray.publishedGroupId")
+    libraryName = properties.getProperty("bintray.libraryName")
+    artifact = properties.getProperty("bintray.artifact")
+
+    libraryDescription = properties.getProperty("bintray.libraryDescription")
+
+    siteUrl = properties.getProperty("bintray.siteUrl")
+    gitUrl = properties.getProperty("bintray.gitUrl")
+
+    developerId = properties.getProperty("bintray.developerId")
+    developerName = properties.getProperty("bintray.developerName")
+    developerEmail = properties.getProperty("bintray.developerEmail")
+
+    libraryVersion = properties.getProperty("bintray.libraryVersion")
+
+    licenseName = properties.getProperty("bintray.licenseName")
+    licenseUrl = properties.getProperty("bintray.licenseUrl")
+    allLicenses = [properties.getProperty("bintray.allLicenses")]
+}
+
+group = publishedGroupId
+version = libraryVersion
+
+install {
+    repositories.mavenInstaller {
+        pom.project {
+            packaging 'aar'
+            groupId publishedGroupId
+            artifactId artifact
+
+            name libraryName
+            description libraryDescription
+            url siteUrl
+
+            licenses {
+                license {
+                    name licenseName
+                    url licenseUrl
+                }
+            }
+            developers {
+                developer {
+                    id developerId
+                    name developerName
+                    email developerEmail
+                }
+            }
+            scm {
+                connection gitUrl
+                developerConnection gitUrl
+                url siteUrl
+            }
+        }
+    }
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
+
+task javadoc(type: Javadoc) {
+    excludes = ['**/*.kt']
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+
+    configurations = ['archives']
+    pkg {
+        repo = bintrayRepo
+        name = bintrayName
+        desc = libraryDescription
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = allLicenses
+        dryRun = false
+        publish = true
+        override = false
+        publicDownloadNumbers = true
+        version {
+            desc = libraryDescription
+        }
+    }
+}
