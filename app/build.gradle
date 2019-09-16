@@ -12,7 +12,14 @@ ext {
 
     libraryDescription = 'Delegates adapter library'
 
-    libraryVersion = '0.0.1'
+    siteUrl = 'https://github.com/spacewl/SW-Adapter'
+    gitUrl = 'https://github.com/spacewl/SW-Adapter.git'
+
+    developerId = 'spacewl'
+    developerName = 'Space Whale'
+    developerEmail = 'developer@spacewl.com'
+
+    libraryVersion = '0.0.2'
 
     licenseName = 'The Apache Software License, Version 2.0'
     licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
@@ -55,12 +62,25 @@ install {
 
             name libraryName
             description libraryDescription
+            url siteUrl
 
             licenses {
                 license {
                     name licenseName
                     url licenseUrl
                 }
+            }
+            developers {
+                developer {
+                    id developerId
+                    name developerName
+                    email developerEmail
+                }
+            }
+            scm {
+                connection gitUrl
+                developerConnection gitUrl
+                url siteUrl
             }
         }
     }
@@ -99,6 +119,8 @@ bintray {
         repo = bintrayRepo
         name = bintrayName
         desc = libraryDescription
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
         licenses = allLicenses
         dryRun = false
         publish = true
