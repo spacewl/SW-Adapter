@@ -1,12 +1,8 @@
-package srf.gi.presentation.core.adapter
+package com.spacewl.adapter
 
 import android.util.Log
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListUpdateCallback
-import com.spacewl.adapter.Callback
-import com.spacewl.adapter.DiffCalculator
-import com.spacewl.adapter.DynamicAdapter
-import com.spacewl.adapter.ListItem
 import kotlinx.coroutines.*
 
 class CoroutineDiffCalculator : DiffCalculator, CoroutineScope {
