@@ -1,5 +1,6 @@
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
+apply plugin: 'org.jetbrains.dokka'
 
 Properties properties = new Properties()
 properties.load(project.rootProject.file('bintray.properties').newDataInputStream())
@@ -64,24 +65,24 @@ install {
     }
 }
 
+
 task sourcesJar(type: Jar) {
     classifier = 'sources'
     from android.sourceSets.main.java.srcDirs
 }
 
-task javadoc(type: Javadoc) {
-    excludes = ['**/*.kt']
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+dokka {
+    outputFormat = 'html'
+    outputDirectory = "$buildDir/documentation"
 }
 
-task javadocJar(type: Jar, dependsOn: javadoc) {
+task dokkaJar(type: Jar, dependsOn: dokka) {
     classifier = 'javadoc'
-    from javadoc.destinationDir
+    from dokka.outputDirectory
 }
 
 artifacts {
-    archives javadocJar
+    archives dokkaJar
     archives sourcesJar
 }
 
@@ -97,9 +98,7 @@ bintray {
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         licenses = allLicenses
-        dryRun = false
         publish = true
-        override = false
         publicDownloadNumbers = true
         version {
             desc = libraryDescription
