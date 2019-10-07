@@ -7,6 +7,8 @@ import kotlinx.coroutines.*
 
 class CoroutineDiffCalculator : DiffCalculator, CoroutineScope {
 
+    private var calculatorJob: Job? = null
+
     override val coroutineContext =
         Dispatchers.Default + SupervisorJob() + CoroutineExceptionHandler { cc, e ->
             Log.e(this::class.java.simpleName, "CoroutineContext --> $cc", e)
@@ -18,9 +20,8 @@ class CoroutineDiffCalculator : DiffCalculator, CoroutineScope {
         after: List<ListItem>,
         detectMoves: Boolean
     ) {
-        val name = CoroutineName(adapter::class.java.simpleName)
-        coroutineContext[name.key]?.cancel()
-        launch(name) {
+        calculatorJob?.cancel()
+        calculatorJob = launch {
             val callback = Callback(before, after)
             val diffResult = DiffUtil.calculateDiff(callback, detectMoves)
             withContext(Dispatchers.Main.immediate) {
@@ -36,9 +37,8 @@ class CoroutineDiffCalculator : DiffCalculator, CoroutineScope {
         after: List<ListItem>,
         detectMoves: Boolean
     ) {
-        val name = CoroutineName(updateCallback::class.java.simpleName)
-        coroutineContext[name.key]?.cancel()
-        launch(name) {
+        calculatorJob?.cancel()
+        calculatorJob = launch {
             val callback = Callback(before, after)
             val diffResult = DiffUtil.calculateDiff(callback, detectMoves)
             withContext(Dispatchers.Main.immediate) {
