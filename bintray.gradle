@@ -2,7 +2,7 @@ apply plugin: "maven-publish"
 apply plugin: "com.jfrog.bintray"
 
 group "com.spacewl.adapter"
-version "1.0.0"
+version "1.0.1"
 
 publishing {
     publications {
@@ -29,7 +29,7 @@ publishing {
 }
 
 def properties = new Properties()
-properties.load(new FileInputStream("local.properties"))
+properties.load(project.rootProject.file("local.properties").newDataInputStream())
 
 bintray {
     user = properties.getProperty("bintray.user")
