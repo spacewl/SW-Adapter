@@ -3,7 +3,6 @@ package com.spacewl.adapter
 import android.view.ViewGroup
 
 interface AdapterDelegatesManager {
-
     fun setDelegates(items: List<ListItem>)
 
     fun getItemViewType(items: List<ListItem>, position: Int): Int

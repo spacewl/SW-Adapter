@@ -1,9 +1,10 @@
 package com.spacewl.adapter
 
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
 
 abstract class AdapterDelegate {
-
+    @get:LayoutRes
     abstract val layoutResource: Int
 
     abstract val itemType: Any

@@ -5,7 +5,6 @@ import android.view.ViewGroup
 class HashCodeBasedAdapterDelegatesManager(
     private val delegatesFactory: AdapterDelegatesFactory
 ) : AdapterDelegatesManager {
-
     private var delegates = hashMapOf<Int, AdapterDelegate>()
 
     override fun setDelegates(items: List<ListItem>) {

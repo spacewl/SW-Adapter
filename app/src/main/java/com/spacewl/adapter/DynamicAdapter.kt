@@ -11,7 +11,7 @@ open class DynamicAdapter constructor(
     constructor(factory: AdapterDelegatesFactory, calculator: DiffCalculator? = null) :
             this(HashCodeBasedAdapterDelegatesManager(factory), calculator)
 
-    var items = arrayListOf<ListItem>()
+    val items = arrayListOf<ListItem>()
 
     override fun getItemViewType(position: Int): Int = manager.getItemViewType(items, position)
 

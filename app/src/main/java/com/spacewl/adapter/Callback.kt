@@ -6,7 +6,6 @@ internal class Callback(
     private val before: List<ListItem>,
     private val after: List<ListItem>
 ) : DiffUtil.Callback() {
-
     override fun getOldListSize(): Int = before.size
 
     override fun getNewListSize(): Int = after.size
@@ -20,5 +19,4 @@ internal class Callback(
 
     override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int): Any? =
         before[oldItemPosition].getChangePayload(after[newItemPosition])
-
 }

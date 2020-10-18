@@ -3,7 +3,6 @@ package com.spacewl.adapter
 import androidx.recyclerview.widget.ListUpdateCallback
 
 interface DiffCalculator {
-
     fun calculateDiff(
         adapter: DynamicAdapter,
         before: List<ListItem>,

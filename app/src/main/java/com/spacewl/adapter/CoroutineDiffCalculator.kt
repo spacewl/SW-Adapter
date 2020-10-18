@@ -6,13 +6,14 @@ import androidx.recyclerview.widget.ListUpdateCallback
 import kotlinx.coroutines.*
 
 class CoroutineDiffCalculator : DiffCalculator, CoroutineScope {
+    private val job: Job = SupervisorJob()
+    private val exceptionHandler = CoroutineExceptionHandler { coroutineContext, exception ->
+        Log.e(this::class.java.simpleName, "CoroutineContext --> $coroutineContext", exception)
+    }
 
     private var calculatorJob: Job? = null
 
-    override val coroutineContext =
-        Dispatchers.Default + SupervisorJob() + CoroutineExceptionHandler { cc, e ->
-            Log.e(this::class.java.simpleName, "CoroutineContext --> $cc", e)
-        }
+    override val coroutineContext = Dispatchers.Default + job + exceptionHandler
 
     override fun calculateDiff(
         adapter: DynamicAdapter,

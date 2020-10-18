@@ -4,7 +4,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListUpdateCallback
 
 class DefaultDiffCalculator : DiffCalculator {
-
     override fun calculateDiff(
         adapter: DynamicAdapter,
         before: List<ListItem>,
