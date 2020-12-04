@@ -1,28 +1,25 @@
 package com.spacewl.adapter
 
-import kotlinx.coroutines.channels.BroadcastChannel
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.consumeAsFlow
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 
 class EventBus {
-    val bus = BroadcastChannel<Any>(Channel.BUFFERED)
+    private val flow = MutableSharedFlow<Any>()
 
-    fun send(event: Any) {
-        bus.offer(event)
+    val bus = flow.asSharedFlow()
+
+    fun send(event: Event) {
+        flow.tryEmit(event)
+    }
+
+    fun send(click: Click) {
+        flow.tryEmit(click)
     }
 
     inline fun <reified T : Event> events(): Flow<T> =
-        bus.openSubscription()
-            .consumeAsFlow()
-            .filter { it is Event && it is T }
+        bus.filter { it is Event && it is T }
             .map { it as T }
 
     inline fun <reified T : Click> clicks(): Flow<T> =
-        bus.openSubscription()
-            .consumeAsFlow()
-            .filter { it is Click && it is T }
+        bus.filter { it is Click && it is T }
             .map { it as T }
 }
