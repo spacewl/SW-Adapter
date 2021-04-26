@@ -9,8 +9,6 @@ import androidx.annotation.Px
 import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
-import com.spacewl.adapter.DynamicAdapter
-import com.spacewl.adapter.ListItem
 import kotlin.reflect.KClass
 
 class DividerDecoration(
@@ -32,7 +30,12 @@ class DividerDecoration(
         offset = paint.strokeWidth / 2
     }
 
-    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+    override fun getItemOffsets(
+        outRect: Rect,
+        view: View,
+        parent: RecyclerView,
+        state: RecyclerView.State
+    ) {
         outRect.bottom = offset.toInt()
         outRect.top = offset.toInt()
     }
@@ -45,7 +48,8 @@ class DividerDecoration(
             val item = (adapter as? DynamicAdapter)
                 ?.items
                 ?.getOrNull(position)
-            val isDividedClass = items.isEmpty() || items.firstOrNull { it.java == item?.javaClass } != null
+            val isDividedClass =
+                items.isEmpty() || items.firstOrNull { it.java == item?.javaClass } != null
             if (position == RecyclerView.NO_POSITION) return@forEach
             if ((position == lastPosition && !withLast) || !isDividedClass) return@forEach
             val hasNext = position < lastPosition
@@ -56,7 +60,7 @@ class DividerDecoration(
             } else {
                 null
             }
-            if (items.isEmpty() || (hasNext && items.firstOrNull { it.java == nextItem?.javaClass } != null)) {
+            if (items.isEmpty() || withLast || (hasNext && items.firstOrNull { it.java == nextItem?.javaClass } != null)) {
                 canvas.drawLine(
                     (view.left + paddingPx).toFloat(),
                     view.bottom + offset,

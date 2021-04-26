@@ -3,10 +3,10 @@ package com.spacewl.adapter
 import androidx.recyclerview.widget.RecyclerView
 
 inline fun <reified T : ListItem> RecyclerView.ViewHolder.withAdapterPosition(block: (item: T) -> Unit) {
-    if (adapterPosition != RecyclerView.NO_POSITION) {
+    if (absoluteAdapterPosition != RecyclerView.NO_POSITION) {
         val items = items
-        if (items != null && adapterPosition >= 0 && adapterPosition < items.size) {
-            val item = items[adapterPosition]
+        if (items != null && absoluteAdapterPosition >= 0 && absoluteAdapterPosition < items.size) {
+            val item = items[absoluteAdapterPosition]
             if (item !is T) throw IllegalArgumentException("item is not type of ${T::class.simpleName}")
             block.invoke(item)
         }
