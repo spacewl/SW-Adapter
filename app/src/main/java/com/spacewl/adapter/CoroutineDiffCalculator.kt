@@ -22,7 +22,7 @@ class CoroutineDiffCalculator : DiffCalculator, CoroutineScope {
         detectMoves: Boolean
     ) {
         calculatorJob?.cancel()
-        calculatorJob = launch {
+        calculatorJob = launch(Dispatchers.IO) {
             val callback = Callback(before, after)
             val diffResult = DiffUtil.calculateDiff(callback, detectMoves)
             withContext(Dispatchers.Main.immediate) {
@@ -39,7 +39,7 @@ class CoroutineDiffCalculator : DiffCalculator, CoroutineScope {
         detectMoves: Boolean
     ) {
         calculatorJob?.cancel()
-        calculatorJob = launch {
+        calculatorJob = launch(Dispatchers.IO) {
             val callback = Callback(before, after)
             val diffResult = DiffUtil.calculateDiff(callback, detectMoves)
             withContext(Dispatchers.Main.immediate) {
