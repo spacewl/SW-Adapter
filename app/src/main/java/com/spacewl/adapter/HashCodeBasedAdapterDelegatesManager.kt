@@ -17,16 +17,27 @@ class HashCodeBasedAdapterDelegatesManager(
         }
     }
 
-    override fun getItemViewType(items: List<ListItem>, position: Int): Int = viewTypeFrom(items[position])
+    override fun getItemViewType(
+        items: List<ListItem>,
+        position: Int
+    ): Int {
+        return viewTypeFrom(items[position])
+    }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
-        getDelegateOrThrowException(viewType).onCreateViewHolder(parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return getDelegateOrThrowException(viewType).onCreateViewHolder(parent)
+    }
 
     override fun onBindViewHolder(items: List<ListItem>, position: Int, vh: ViewHolder) {
         getDelegateOrThrowException(vh.itemViewType).onBindViewHolder(items, position, vh)
     }
 
-    override fun onBindViewHolder(items: List<ListItem>, position: Int, vh: ViewHolder, payloads: List<Any>) {
+    override fun onBindViewHolder(
+        items: List<ListItem>,
+        position: Int,
+        vh: ViewHolder,
+        payloads: List<Any>
+    ) {
         getDelegateOrThrowException(vh.itemViewType).onBindViewHolder(items, position, vh, payloads)
     }
 
@@ -34,8 +45,9 @@ class HashCodeBasedAdapterDelegatesManager(
         getDelegateOrThrowException(vh.itemViewType).onViewRecycled(vh)
     }
 
-    override fun onFailedToRecycleView(vh: ViewHolder): Boolean =
-        getDelegateOrThrowException(vh.itemViewType).onFailedToRecycleView(vh)
+    override fun onFailedToRecycleView(vh: ViewHolder): Boolean {
+        return getDelegateOrThrowException(vh.itemViewType).onFailedToRecycleView(vh)
+    }
 
     override fun onViewAttachedToWindow(vh: ViewHolder) {
         getDelegateOrThrowException(vh.itemViewType).onViewAttachedToWindow(vh)
@@ -45,8 +57,9 @@ class HashCodeBasedAdapterDelegatesManager(
         getDelegateOrThrowException(vh.itemViewType).onViewDetachedFromWindow(vh)
     }
 
-    private fun getDelegateOrThrowException(viewType: Int): AdapterDelegate =
-        delegates[viewType] ?: throw DelegateNotFoundException()
+    private fun getDelegateOrThrowException(viewType: Int): AdapterDelegate {
+        return delegates[viewType] ?: throw DelegateNotFoundException()
+    }
 
     private fun viewTypeFrom(item: ListItem): Int = item::class.java.name.hashCode()
 }

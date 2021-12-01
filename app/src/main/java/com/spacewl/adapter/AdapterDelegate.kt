@@ -1,19 +1,22 @@
 package com.spacewl.adapter
 
 import android.view.ViewGroup
-import androidx.annotation.LayoutRes
 
 abstract class AdapterDelegate {
-    @get:LayoutRes
-    abstract val layoutResource: Int
-
     abstract val itemType: Any
 
-    fun isForViewType(items: List<ListItem>, position: Int): Boolean = items[position]::class == itemType
+    abstract fun onCreateViewHolder(parent: ViewGroup): ViewHolder
 
-    open fun onCreateViewHolder(parent: ViewGroup): ViewHolder = BaseViewHolder(parent, layoutResource)
+    fun isForViewType(
+        items: List<ListItem>,
+        position: Int
+    ): Boolean = items[position]::class == itemType
 
-    open fun onBindViewHolder(items: List<ListItem>, position: Int, holder: ViewHolder) {}
+    open fun onBindViewHolder(
+        items: List<ListItem>,
+        position: Int, holder: ViewHolder
+    ) {
+    }
 
     open fun onBindViewHolder(
         items: List<ListItem>,
@@ -33,7 +36,13 @@ abstract class AdapterDelegate {
         }
     }
 
-    open fun onBindViewHolder(items: List<ListItem>, position: Int, holder: ViewHolder, payload: Any) {}
+    open fun onBindViewHolder(
+        items: List<ListItem>,
+        position: Int,
+        holder: ViewHolder,
+        payload: Any
+    ) {
+    }
 
     open fun onViewRecycled(holder: ViewHolder) {}
 

@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 1
         versionName "1.0"
     }
@@ -21,23 +21,19 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
-        freeCompilerArgs += [
-                "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi",
-                "-Xuse-experimental=kotlinx.coroutines.ObsoleteCoroutinesApi"
-        ]
+        jvmTarget = "11"
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 }
 
 dependencies {
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.1"
-    api "androidx.core:core-ktx:1.6.0"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2"
+    api "androidx.core:core-ktx:1.7.0"
     api "androidx.recyclerview:recyclerview:1.2.1"
 }
 
