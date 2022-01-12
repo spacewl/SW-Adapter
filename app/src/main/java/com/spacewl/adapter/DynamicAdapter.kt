@@ -5,13 +5,15 @@ import androidx.recyclerview.widget.RecyclerView
 
 open class DynamicAdapter constructor(
     private val manager: AdapterDelegatesManager,
+    private val hasStableIds: Boolean = false,
     private val diffCalculator: DiffCalculator? = null
 ) : RecyclerView.Adapter<ViewHolder>() {
 
     constructor(
         factory: AdapterDelegatesFactory,
+        hasStableIds: Boolean = false,
         calculator: DiffCalculator? = null
-    ) : this(HashCodeBasedAdapterDelegatesManager(factory), calculator)
+    ) : this(HashCodeBasedAdapterDelegatesManager(factory), hasStableIds, calculator)
 
     val items = arrayListOf<ListItem>()
 
@@ -19,6 +21,16 @@ open class DynamicAdapter constructor(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return manager.onCreateViewHolder(parent, viewType)
+    }
+
+    override fun getItemId(position: Int): Long {
+        return if (hasStableIds) {
+            items[position].getUniqueProperty()
+                .hashCode()
+                .toLong()
+        } else {
+            super.getItemId(position)
+        }
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

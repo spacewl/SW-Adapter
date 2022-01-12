@@ -30,7 +30,7 @@ android {
 
 dependencies {
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0"
     api "androidx.core:core-ktx:1.7.0"
     api "androidx.recyclerview:recyclerview:1.2.1"
 }
