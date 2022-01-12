@@ -10,4 +10,9 @@ interface ListItem {
     fun getChangePayload(other: ListItem): Any = Unit
 
     fun getUniqueProperty(): Any = this::class.toString()
+
+    fun getStableId(): Long {
+        return getUniqueProperty().hashCode()
+            .toLong()
+    }
 }

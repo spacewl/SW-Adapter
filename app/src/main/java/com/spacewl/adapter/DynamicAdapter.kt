@@ -24,13 +24,7 @@ open class DynamicAdapter constructor(
     }
 
     override fun getItemId(position: Int): Long {
-        return if (hasStableIds) {
-            items[position].getUniqueProperty()
-                .hashCode()
-                .toLong()
-        } else {
-            super.getItemId(position)
-        }
+        return if (hasStableIds) items[position].getStableId() else super.getItemId(position)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
